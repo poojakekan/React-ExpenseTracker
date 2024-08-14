@@ -3,8 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Signup from './components/Signup';
 import Login from './components/Login';
 import Welcome from './components/Welcome';
-import ProfileIncomplete from './components/ProfileIncomplete';
-import CompleteProfile from './components/CompleteProfile';
+import ForgotPassword from './components/ForgotPassword';
 
 function App() {
   return (
@@ -13,8 +12,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
         <Route path="/welcome" element={<Welcome />} />
-        <Route path="/profile-incomplete" element={<ProfileIncomplete />} />
-        <Route path="/complete-profile" element={<CompleteProfile />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
       </Routes>
     </Router>
   );

@@ -55,8 +55,14 @@ const Login = () => {
         {error && <p className="error">{error}</p>}
         <button type="submit">Login</button>
       </form>
+      <button onClick={() => navigate('/forgot-password')}>Forgot Password?</button>
     </div>
   );
 };
 
 export default Login;
+
+
+
+
+
