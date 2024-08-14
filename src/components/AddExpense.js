@@ -1,4 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { ref, push, set, onValue } from 'firebase/database';
+import { database } from '../firebase';
+import './AddExpense.css';
 
 const AddExpense = () => {
   const [amount, setAmount] = useState('');
@@ -6,18 +9,39 @@ const AddExpense = () => {
   const [category, setCategory] = useState('Food');
   const [expenses, setExpenses] = useState([]);
 
-  const handleAddExpense = (e) => {
+  useEffect(() => {
+    // Fetch expenses from Firebase on component mount
+    const expensesRef = ref(database, 'expenses');
+    onValue(expensesRef, (snapshot) => {
+      const data = snapshot.val();
+      if (data) {
+        const loadedExpenses = Object.entries(data).map(([id, expense]) => ({
+          id,
+          ...expense,
+        }));
+        setExpenses(loadedExpenses);
+      }
+    });
+  }, []);
+
+  const handleAddExpense = async (e) => {
     e.preventDefault();
     const newExpense = {
-      id: Date.now(),
       amount,
       description,
       category,
     };
-    setExpenses([...expenses, newExpense]);
-    setAmount('');
-    setDescription('');
-    setCategory('Food');
+
+    try {
+      const newExpenseRef = push(ref(database, 'expenses'));
+      await set(newExpenseRef, newExpense);
+      setAmount('');
+      setDescription('');
+      setCategory('Food');
+      alert('Expense added successfully!');
+    } catch (error) {
+      console.error('Error adding expense:', error);
+    }
   };
 
   return (
